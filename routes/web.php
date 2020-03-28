@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', static function () {
-    return view('lesson1.first');
-});
-Route::get('/second', static function () {
-    return view('lesson1.second');
-});
-Route::get('/third', static function () {
-    return view('lesson1.third');
+Route::get('/', 'SiteController@index')->name('Home');
+Route::get('/category', 'CategoryController@index')->name('Categories');
+Route::get('/category/{name}', 'CategoryController@filterCategory')->name('NewsByCategory');
+
+
+Route::group([
+    'prefix' => 'news',
+    'namespace' => 'News',
+    //'as' => 'news.'
+], function () {
+    Route::get('/', 'NewsController@index')->name('News');
+    Route::get('/add', 'NewsController@add')->name('NewsAdd');
+    Route::get('/{id}', 'NewsController@show')->name('NewsOne');
+
 });
