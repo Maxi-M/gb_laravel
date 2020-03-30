@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'SiteController@index')->name('Home');
-Route::get('/category', 'CategoryController@index')->name('Categories');
-Route::get('/category/{name}', 'CategoryController@filterCategory')->name('NewsByCategory');
-
 
 Route::group([
     'prefix' => 'news',
@@ -25,6 +22,7 @@ Route::group([
 ], function () {
     Route::get('/', 'NewsController@index')->name('News');
     Route::get('/add', 'NewsController@add')->name('NewsAdd');
+    Route::get('/category', 'CategoryController@index')->name('Categories');
+    Route::get('/category/{name}', 'CategoryController@filterCategory')->name('NewsByCategory');
     Route::get('/{id}', 'NewsController@show')->name('NewsOne');
-
 });

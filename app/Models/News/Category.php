@@ -1,8 +1,10 @@
 <?php
 
 
-namespace App;
+namespace App\Models\News;
 
+
+use Illuminate\Support\Str;
 
 class Category
 {
@@ -31,10 +33,10 @@ class Category
         return static::getCategories()[$id] ?? null;
     }
 
-    public static function getCategoryByName(string $category_name): ?array
+    public static function getCategoryBySlug(string $slug): ?array
     {
         foreach (static::getCategories() as $item) {
-            if (mb_strtolower($item['text']) === mb_strtolower($category_name)) {
+            if (Str::slug($item['text']) === $slug) {
                 return $item;
             }
         }
