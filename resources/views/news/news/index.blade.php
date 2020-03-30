@@ -3,16 +3,30 @@
 @section('title', 'Список новостей')
 
 @section('content')
-<h1> Вот какие новости есть:</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        @if(isset($category_name))
+                            Новости категории <strong>{{ $category_name }}</strong>
+                        @else
+                            Список всех новостей
+                        @endif
+                    </div>
 
-<?php if (isset($category_name)): ?>
-<p>Категория: <strong><?= $category_name ?></strong></p>
-<?php endif; ?>
-
-<div class="news-list">
-    <?php foreach ($news as $item): ?>
-    <a href="<?= route('NewsOne', $item['id']) ?>"><?= $item['title'] ?></a><br>
-    <?php endforeach; ?>
-</div>
-
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        @foreach ($news as $item)
+                            <a href="{{ route('NewsOne', $item['id']) }}">{{ $item['title'] }}</a><br>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
