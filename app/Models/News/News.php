@@ -40,7 +40,7 @@ class News
         $result = [];
         foreach (static::getNews() as $item) {
             if ($item['category_id'] === $id) {
-                $result[$item['id']] = $item;
+                $result[] = $item;
             }
         }
         return $result;

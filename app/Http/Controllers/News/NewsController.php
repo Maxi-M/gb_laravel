@@ -11,17 +11,20 @@ class NewsController extends Controller
 {
     public function index()
     {
-        return view('news.news.index')->with('news', News::getNews());
+        return view('news.index')->with('news', News::getNews());
     }
 
     public function show(int $id)
     {
-        return view('news.news.one')->with('news', News::getNewsId($id));
+        if (array_key_exists($id, News::getNews())) {
+            return view('news.one')->with('news', News::getNewsId($id));
+        }
+        return redirect()->route('News');
     }
 
     public function add()
     {
-        return view('news.news.add');
+        return view('news.add');
     }
 
     public function store()

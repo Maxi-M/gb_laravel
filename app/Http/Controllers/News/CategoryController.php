@@ -23,7 +23,7 @@ class CategoryController extends Controller
             $category_name = $category['text'];
         }
 
-        return view('news.news.index', [
+        return view('news.index', [
             'news' =>$news ?? [],
             'category_name' =>$category_name ?? null
         ]);

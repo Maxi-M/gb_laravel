@@ -21,9 +21,13 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        @foreach ($news as $item)
-                            <a href="{{ route('NewsOne', $item['id']) }}">{{ $item['title'] }}</a><br>
-                        @endforeach
+                        @if(count($news)>0)
+                            @foreach ($news as $item)
+                                <a href="{{ route('NewsOne', $item['id']) }}">{{ $item['title'] }}</a><br>
+                            @endforeach
+                        @else
+                            Новости не найдены
+                        @endif
                     </div>
                 </div>
             </div>
