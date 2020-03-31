@@ -22,7 +22,12 @@ Route::group([
 ], function () {
     Route::get('/', 'NewsController@index')->name('News');
     Route::get('/add', 'NewsController@add')->name('NewsAdd');
+    Route::post('/store', 'NewsController@store')->name('NewsStore');
     Route::get('/category', 'CategoryController@index')->name('Categories');
     Route::get('/category/{name}', 'CategoryController@filterCategory')->name('NewsByCategory');
     Route::get('/{id}', 'NewsController@show')->name('NewsOne');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
