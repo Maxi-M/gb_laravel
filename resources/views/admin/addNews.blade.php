@@ -39,7 +39,9 @@
                                             name="category_id" required>
                                         <option selected>- Выберите категорию -</option>
                                         @foreach(\App\Models\News\Category::getCategories() as $item)
-                                            <option value="{{ $item['id'] }}">{{ $item['text'] }}</option>
+                                            <option @if((int)old('category_id') === $item['id']) selected @endif
+                                                    value="{{ $item['id'] }}">{{ $item['text'] }}
+                                            </option>
                                         @endforeach
                                     </select>
 
