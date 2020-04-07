@@ -22,11 +22,6 @@ class NewsController extends Controller
         return redirect()->route('News');
     }
 
-    public function add()
-    {
-        return view('news.add');
-    }
-
     public function store()
     {
         //TODO: Получить данные из формы методом POST и сохраняем

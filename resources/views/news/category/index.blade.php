@@ -16,7 +16,7 @@
                             </div>
                         @endif
                         @foreach ($categories as $item)
-                            <a href="{{ route('NewsByCategory', \Illuminate\Support\Str::slug($item['text'])) }}">{{ $item['text'] }}</a>
+                            <a href="{{ route('news.byCategory', \Illuminate\Support\Str::slug($item['text'])) }}">{{ $item['text'] }}</a>
                             <br>
                         @endforeach
                     </div>

@@ -23,7 +23,7 @@
                         @endif
                         @if(count($news)>0)
                             @foreach ($news as $item)
-                                <a href="{{ route('NewsOne', $item['id']) }}">{{ $item['title'] }}</a><br>
+                                <a href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}</a><br>
                             @endforeach
                         @else
                             Новости не найдены

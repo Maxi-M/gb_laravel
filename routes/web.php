@@ -15,19 +15,34 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'SiteController@index')->name('Home');
 
+
+
 Route::group([
     'prefix' => 'news',
     'namespace' => 'News',
-    //'as' => 'news.'
+    'as' => 'news.'
 ], function () {
-    Route::get('/', 'NewsController@index')->name('News');
-    Route::get('/add', 'NewsController@add')->name('NewsAdd');
-    Route::post('/store', 'NewsController@store')->name('NewsStore');
-    Route::get('/category', 'CategoryController@index')->name('Categories');
-    Route::get('/category/{name}', 'CategoryController@filterCategory')->name('NewsByCategory');
-    Route::get('/{id}', 'NewsController@show')->name('NewsOne');
+    Route::get('/', 'NewsController@index')->name('index');
+    Route::post('/store', 'NewsController@store')->name('store');
+    Route::get('/category', 'CategoryController@index')->name('categories');
+    Route::get('/category/{name}', 'CategoryController@filterCategory')->name('byCategory');
+    Route::get('/{id}', 'NewsController@show')->name('show');
 });
 
+
+
+Route::group([
+    'prefix' => 'admin',
+    //'namespace' => '',
+    'as' => 'admin.'
+], function () {
+    Route::get('/add-news', 'AdminController@addNews')->name('newsAdd');
+});
+
+
+
 Auth::routes();
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');

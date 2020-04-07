@@ -10,7 +10,7 @@
                     <div class="card-header">Добавить новость</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('NewsStore') }}">
+                        <form method="POST" action="{{ route('news.store') }}">
                             @csrf
 
                             <div class="form-group row">

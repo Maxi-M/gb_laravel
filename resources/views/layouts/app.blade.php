@@ -43,10 +43,10 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('News') }}">
+                                <a class="dropdown-item" href="{{ route('news.index') }}">
                                     Все новости
                                 </a>
-                                <a class="dropdown-item" href="{{ route('Categories') }}">
+                                <a class="dropdown-item" href="{{ route('news.categories') }}">
                                     Категории новостей
                                 </a>
                             </div>
@@ -56,7 +56,7 @@
                                 Админка <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('NewsAdd') }}">
+                                <a class="dropdown-item" href="{{ route('admin.newsAdd') }}">
                                     Добавить новость
                                 </a>
                             </div>
