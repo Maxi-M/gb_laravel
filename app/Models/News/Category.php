@@ -4,28 +4,14 @@
 namespace App\Models\News;
 
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Category
 {
-    private static $categories = [
-        1 => [
-            'id' => 1,
-            'text' => 'Политика'
-        ],
-        2 => [
-            'id' => 2,
-            'text' => 'Искусство'
-        ],
-        3 => [
-            'id' => 3,
-            'text' => 'Спорт'
-        ],
-    ];
-
     public static function getCategories()
     {
-        return static::$categories;
+        return json_decode(File::get(storage_path().'/categories.json'), true);
     }
 
     public static function getCategoryId(int $id): ?array

@@ -19,11 +19,19 @@ class NewsController extends Controller
         if (array_key_exists($id, News::getNews())) {
             return view('news.one')->with('news', News::getNewsId($id));
         }
-        return redirect()->route('News');
+        return redirect()->route('news.index');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        //TODO: Получить данные из формы методом POST и сохраняем
+        if ($request->isMethod('POST')) {
+            $request->flash();
+
+            $model = new News();
+            if ($model->load($request) && $model->save()) {
+                return redirect()->route('news.index')->with('status', 'Новость добавлена успешно');
+            }
+            return redirect()->route('admin.newsAdd');
+        }
     }
 }
