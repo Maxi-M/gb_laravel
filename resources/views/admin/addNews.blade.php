@@ -8,19 +8,17 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Добавить новость</div>
-
                     <div class="card-body">
                         <form method="POST" action="{{ route('news.store') }}">
                             @csrf
-
                             <div class="form-group row">
                                 <label for="title"
-                                       class="col-md-2 col-form-label text-md-left">{{ __('Title') }}</label>
+                                       class="col-md-2 col-form-label text-md-left">Заголовок</label>
 
                                 <div class="col-md-10">
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
-                                           value="{{ old('title') }}" required autofocus>
+                                           value="{{ old('title') }}" autofocus>
 
                                     @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -32,13 +30,13 @@
 
                             <div class="form-group row">
                                 <label for="category_id"
-                                       class="col-md-2 col-form-label text-md-left">{{ __('Category') }}</label>
+                                       class="col-md-2 col-form-label text-md-left">Категория</label>
 
                                 <div class="col-md-10">
                                     <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                                            name="category_id" required>
+                                            name="category_id">
                                         <option selected>- Выберите категорию -</option>
-                                        @foreach(\App\Models\News\Category::getCategories() as $item)
+                                        @foreach($categories as $item)
                                             <option @if((int)old('category_id') === $item['id']) selected @endif
                                                     value="{{ $item['id'] }}">{{ $item['text'] }}
                                             </option>
@@ -54,7 +52,7 @@
                             </div>
 
                             <div class="form-group row mb-0">
-                                <div class="col-md-4 col-form-label text-md-left">{{ __('Text') }}</div>
+                                <div class="col-md-4 col-form-label text-md-left">Текст новости</div>
                             </div>
 
                             <div class="form-group row">
@@ -72,7 +70,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary col-md-4 offset-md-4">
-                                        {{ __('Save') }}
+                                        Добавить новость
                                     </button>
                                 </div>
                             </div>
