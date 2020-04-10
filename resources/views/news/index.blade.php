@@ -8,8 +8,8 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        @if(isset($category_name))
-                            Новости категории <strong>{{ $category_name }}</strong>
+                        @if(isset($category))
+                            Новости категории <strong>{{ $category->text }}</strong>
                         @else
                             Список всех новостей
                         @endif
@@ -23,7 +23,15 @@
                         @endif
                         @if(count($news)>0)
                             @foreach ($news as $item)
-                                <a href="{{ route('news.show', $item['id']) }}">{{ $item['title'] }}</a><br>
+                                <div class="news-card">
+                                    <a class="news-link" href="{{ route('news.show', $item->id) }}">
+                                        <div class="news-title">{{ $item->title }}</div>
+                                    </a>
+                                    <div class="news-image" style="background-image: url({{ $item->image ??
+                                        asset('/storage/images/noImg.jpg') }}) ">
+
+                                    </div>
+                                </div>
                             @endforeach
                         @else
                             Новости не найдены

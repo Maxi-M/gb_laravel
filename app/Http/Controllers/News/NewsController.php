@@ -16,8 +16,9 @@ class NewsController extends Controller
 
     public function show(int $id)
     {
-        if (array_key_exists($id, News::getNews())) {
-            return view('news.one')->with('news', News::getNewsId($id));
+        $news = News::getNewsId($id);
+        if (count($news) > 0) {
+            return view('news.one')->with('news', $news[$id - 1]);
         }
         return redirect()->route('news.index');
     }

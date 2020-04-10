@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Добавить новость</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('news.store') }}">
+                        <form enctype="multipart/form-data" method="POST" action="{{ route('news.store') }}">
                             @csrf
                             <div class="form-group row">
                                 <label for="title"
@@ -37,8 +37,8 @@
                                             name="category_id">
                                         <option selected>- Выберите категорию -</option>
                                         @foreach($categories as $item)
-                                            <option @if((int)old('category_id') === $item['id']) selected @endif
-                                                    value="{{ $item['id'] }}">{{ $item['text'] }}
+                                            <option @if((int)old('category_id') === $item->id) selected @endif
+                                                    value="{{ $item->id }}">{{ $item->text }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -67,6 +67,12 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-12">
+                                    <input type="file" name="image">
+                                </div>
+                            </div>
+
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary col-md-4 offset-md-4">
