@@ -10882,3 +10882,31 @@ a.text-dark:focus {
   }
 }
 
+.news-card {
+  border: solid 1px #5a6268;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.news-image {
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 200px;
+  display: block;
+}
+
+.news-title {
+  font-weight: 700;
+  font-size: 16px;
+  padding: 10px 10px;
+  border-bottom: 1px #5a6268 solid;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.news-link {
+  display: block;
+}
+

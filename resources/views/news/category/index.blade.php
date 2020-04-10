@@ -15,10 +15,12 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        @foreach ($categories as $item)
-                            <a href="{{ route('news.byCategory', \Illuminate\Support\Str::slug($item['text'])) }}">{{ $item['text'] }}</a>
+                        @forelse ($categories as $item)
+                            <a href="{{ route('news.byCategory', $item->slug) }}">{{ $item->text }}</a>
                             <br>
-                        @endforeach
+                        @empty
+                            <h1>Категории отсутствуют</h1>
+                        @endforelse
                     </div>
                 </div>
             </div>

@@ -3,7 +3,8 @@
 namespace App\Models\News;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Storage;
 
 class News
 {
@@ -11,49 +12,50 @@ class News
     public int $category_id;
     public string $title;
     public string $text;
+    public string $image;
 
     public static function getNews()
     {
-        return json_decode(File::get(storage_path().'/news.json'), true);
+        return DB::table('news')->get()->all();
     }
 
     public static function getNewsId(int $id): ?array
     {
-        return static::getNews()[$id] ?? null;
+        return DB::table('news')->get()->where('id', $id)->all();
     }
 
     public static function getNewsByCategoryId(int $id): array
     {
-        $result = [];
-        foreach (static::getNews() as $item) {
-            if ($item['category_id'] === $id) {
-                $result[] = $item;
-            }
-        }
-        return $result;
+        return DB::table('news')->get()->where('category_id', $id)->all();
     }
 
     public function load(Request $request): bool
     {
+        $url = null;
+
+        if ($file = $request->file('image')) {
+            $path = Storage::putFile('public/images', $file);
+            $url = Storage::url($path);
+        }
+
         $this->id = $request->id ?? null;
         $this->title = $request->title;
         $this->text = $request->text;
         $this->category_id = $request->category_id;
+        $this->image = $url;
 
         return true;
     }
 
     public function save(): bool
     {
-        $data = static::getNews();
-        $this->id = $this->id ?? array_key_last($data) + 1;
-        $data[] = [
-            'id' => $this->id,
+
+        DB::table('news')->insert([
             'category_id' => $this->category_id,
+            'image' => $this->image,
             'title' => $this->title,
             'text' => $this->text
-        ];
-        File::put(storage_path().'/news.json', json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        ]);
 
         return true;
     }

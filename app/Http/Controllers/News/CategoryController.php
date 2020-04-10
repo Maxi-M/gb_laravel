@@ -18,14 +18,14 @@ class CategoryController extends Controller
     public function filterCategory(string $slug)
     {
         $category = Category::getCategoryBySlug($slug);
-        if ($category !== null) {
-            $news =  News::getNewsByCategoryId($category['id']);
-            $category_name = $category['text'];
-        }
+        $category = array_pop($category);
 
+        if ($category !== null) {
+            $news =  News::getNewsByCategoryId($category->id);
+        }
         return view('news.index', [
             'news' =>$news ?? [],
-            'category_name' =>$category_name ?? null
+            'category' =>$category
         ]);
     }
 }

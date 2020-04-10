@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $news['title'])
+@section('title', $news->title)
 
 @section('content')
     <div class="container">
@@ -8,7 +8,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        {{ $news['title'] }}
+                        {{ $news->title }}
                     </div>
 
                     <div class="card-body">
@@ -17,7 +17,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        {{ $news['text'] }}
+                        {{ $news->text }}
                     </div>
                 </div>
             </div>
