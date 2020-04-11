@@ -10910,3 +10910,16 @@ a.text-dark:focus {
   display: block;
 }
 
+.news-pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.news-item {
+  margin: 10px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+

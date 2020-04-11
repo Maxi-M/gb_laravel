@@ -1,26 +1,16 @@
 <?php
 
-
 namespace App\Models\News;
 
+use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
-class Category
+class Category extends Model
 {
-    public static function getCategories()
-    {
-        return DB::table('categories')->get()->all();
-    }
+    protected $table = 'categories';
+    protected $fillable = ['text', 'slug'];
 
-    public static function getCategoryId(int $id): ?array
+    public function news()
     {
-        return DB::table('categories')->get()->where('id', $id)->all();
-    }
-
-    public static function getCategoryBySlug(string $slug): ?array
-    {
-        return DB::table('categories')->get()->where('slug', $slug)->all();
+        return $this->hasMany(News::class, 'category_id');
     }
 }

@@ -23,23 +23,18 @@ Route::group([
     'as' => 'news.'
 ], function () {
     Route::get('/', 'NewsController@index')->name('index');
-    Route::post('/store', 'NewsController@store')->name('store');
     Route::get('/category', 'CategoryController@index')->name('categories');
     Route::get('/category/{name}', 'CategoryController@filterCategory')->name('byCategory');
-    Route::get('/{id}', 'NewsController@show')->name('show');
+    Route::get('/{news}', 'NewsController@show')->name('show');
 });
-
-
 
 Route::group([
     'prefix' => 'admin',
-    //'namespace' => '',
+    'namespace' => 'Admin',
     'as' => 'admin.'
 ], function () {
-    Route::get('/add-news', 'AdminController@addNews')->name('newsAdd');
+    Route::resource('news', 'NewsController');
 });
-
-
 
 Auth::routes();
 
