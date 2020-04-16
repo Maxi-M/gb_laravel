@@ -21,6 +21,7 @@
                         @empty
                             <h1>Категории отсутствуют</h1>
                         @endforelse
+                        {{ $categories->links() }}
                     </div>
                 </div>
             </div>

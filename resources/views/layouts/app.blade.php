@@ -56,7 +56,10 @@
                                 Админка <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.newsAdd') }}">
+                                <a class="dropdown-item" href="{{ route('admin.news.index') }}">
+                                    Редактировать новости
+                                </a>
+                                <a class="dropdown-item" href="{{ route('admin.news.create') }}">
                                     Добавить новость
                                 </a>
                             </div>

@@ -9,8 +9,17 @@
                 <div class="card">
                     <div class="card-header">Добавить новость</div>
                     <div class="card-body">
-                        <form enctype="multipart/form-data" method="POST" action="{{ route('news.store') }}">
+                        <form enctype="multipart/form-data" method="POST" action="
+                            @if($news !== null)
+                        {{ route('admin.news.update', $news) }}
+                        @else
+                        {{ route('admin.news.store') }}
+                        @endif
+                            ">
                             @csrf
+                            @if ($news !== null)
+                                <input type="hidden" name="_method" value="PATCH">
+                            @endif
                             <div class="form-group row">
                                 <label for="title"
                                        class="col-md-2 col-form-label text-md-left">Заголовок</label>
@@ -18,7 +27,7 @@
                                 <div class="col-md-10">
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
-                                           value="{{ old('title') }}" autofocus>
+                                           value="{{ $news !== null ? $news->title : old('title') }}" autofocus>
 
                                     @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -33,12 +42,16 @@
                                        class="col-md-2 col-form-label text-md-left">Категория</label>
 
                                 <div class="col-md-10">
-                                    <select id="category_id" class="form-control @error('category_id') is-invalid @enderror"
+                                    <select id="category_id"
+                                            class="form-control @error('category_id') is-invalid @enderror"
                                             name="category_id">
                                         <option selected>- Выберите категорию -</option>
                                         @foreach($categories as $item)
-                                            <option @if((int)old('category_id') === $item->id) selected @endif
-                                                    value="{{ $item->id }}">{{ $item->text }}
+                                            <option @if(($item->id === ($news !== null ? $news->category_id : null)) ||
+                                                        ((int)old('category_id') === $item->id))
+                                                        selected
+                                                    @endif
+                                                value="{{ $item->id }}">{{ $item->text }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -59,7 +72,8 @@
                                 <div class="col-md-12">
                                     <textarea rows="10" id="text"
                                               class="form-control @error('text') is-invalid @enderror"
-                                              name="text">{{ old('text') }}</textarea>
+                                              name="text">{{ $news !==null ? $news->text : old('text') }}
+                                    </textarea>
                                     @error('text')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -76,7 +90,11 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary col-md-4 offset-md-4">
-                                        Добавить новость
+                                        @if ($news !== null)
+                                            Сохранить новость
+                                        @else
+                                            Добавить новость
+                                        @endif
                                     </button>
                                 </div>
                             </div>

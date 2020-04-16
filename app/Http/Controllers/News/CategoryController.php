@@ -12,19 +12,18 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return view('news.category.index')->with('categories', Category::getCategories());
+        return view('news.category.index')->with('categories', Category::query()->paginate(5));
     }
 
     public function filterCategory(string $slug)
     {
-        $category = Category::getCategoryBySlug($slug);
-        $category = array_pop($category);
-
+        $news = null;
+        $category = Category::query()->where('slug', $slug)->first();
         if ($category !== null) {
-            $news =  News::getNewsByCategoryId($category->id);
+            $news =  $category->news()->paginate(5);
         }
         return view('news.index', [
-            'news' =>$news ?? [],
+            'news' =>$news,
             'category' =>$category
         ]);
     }
