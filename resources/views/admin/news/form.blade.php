@@ -28,12 +28,7 @@
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
                                            value="{{ $news !== null ? $news->title : old('title') }}" autofocus>
-
-                                    @error('title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    @component('components.validationError', ['field' => 'title'])@endcomponent
                                 </div>
                             </div>
 
@@ -49,18 +44,14 @@
                                         @foreach($categories as $item)
                                             <option @if(($item->id === ($news !== null ? $news->category_id : null)) ||
                                                         ((int)old('category_id') === $item->id))
-                                                        selected
+                                                    selected
                                                     @endif
-                                                value="{{ $item->id }}">{{ $item->text }}
+                                                    value="{{ $item->id }}">{{ $item->text }}
                                             </option>
                                         @endforeach
                                     </select>
 
-                                    @error('category_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    @component('components.validationError', ['field' => 'category_id'])@endcomponent
                                 </div>
                             </div>
 
@@ -74,17 +65,18 @@
                                               class="form-control @error('text') is-invalid @enderror"
                                               name="text">{{ $news !==null ? $news->text : old('text') }}
                                     </textarea>
-                                    @error('text')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                    @component('components.validationError', ['field' => 'text'])@endcomponent
                                 </div>
                             </div>
                             <div class="form-group row mb-0">
+                                <label for="image"
+                                       class="col-md-12 col-form-label text-md-left">Картинка для новости</label>
                                 <div class="col-md-12">
-                                    <input type="file" name="image">
+                                    <input class="form-control-file @error('image')is-invalid @enderror" type="file"
+                                           name="image" id="image">
+                                    @component('components.validationError', ['field' => 'image'])@endcomponent
                                 </div>
+
                             </div>
 
                             <div class="form-group row mb-0">

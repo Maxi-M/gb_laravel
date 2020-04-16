@@ -41,10 +41,13 @@ class NewsController extends Controller
      *
      * @param Request $request
      * @return RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
             $request->flash();
+
+            $this->validate($request, News::rules());
 
             $model = new News();
             if ($model->fill($request->all())) {
@@ -92,9 +95,12 @@ class NewsController extends Controller
      * @param News $news
      * @param Request $request
      * @return RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(News $news, Request $request): RedirectResponse
     {
+        $this->validate($request, News::rules());
+
         if ($news->fill($request->all()) && $news->save()) {
             return redirect()->route('admin.news.index')->with('status', 'Новость обновлена успешно');
         }
