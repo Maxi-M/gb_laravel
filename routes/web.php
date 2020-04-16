@@ -34,6 +34,7 @@ Route::group([
     'as' => 'admin.'
 ], function () {
     Route::resource('news', 'NewsController');
+    Route::resource('category', 'CategoryController');
 });
 
 Auth::routes();
