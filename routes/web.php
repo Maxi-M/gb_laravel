@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'SiteController@index')->name('Home');
 
+Route::group([
+    'prefix' => 'profile',
+    'as' => 'profile.',
+    'middleware' => ['auth']
+], function() {
+    Route::get('/edit', 'ProfileController@edit')->name('edit');
+    Route::patch('/update', 'ProfileController@update')->name('update');
+});
 
 
 Route::group([
@@ -31,14 +39,17 @@ Route::group([
 Route::group([
     'prefix' => 'admin',
     'namespace' => 'Admin',
-    'as' => 'admin.'
+    'as' => 'admin.',
+    'middleware' => ['auth', 'isAdmin']
 ], function () {
     Route::resource('news', 'NewsController');
     Route::resource('category', 'CategoryController');
+    Route::get('/users', 'UserController@index')->name('users.index');
+    Route::patch('/toggle-admin/{user}', 'UserController@toggleAdmin')->name('users.toggleAdmin');
 });
 
 Auth::routes();
 
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
