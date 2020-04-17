@@ -8,6 +8,7 @@ use App\Models\News\News;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Storage;
 
@@ -20,7 +21,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::query()->paginate(5);
+        $news = News::query()->paginate(config('app.pageSize'));
         return view('admin.news.index')->with('news', $news);
     }
 
@@ -31,7 +32,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $news = null;
+        $news = new News();
         $categories = Category::all();
         return view('admin.news.form', ['categories' => $categories, 'news' => $news]);
     }
@@ -41,28 +42,28 @@ class NewsController extends Controller
      *
      * @param Request $request
      * @return RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
-            $request->flash();
+        $request->flash();
 
-            $this->validate($request, News::rules());
+        $this->validate($request, News::rules());
 
-            $model = new News();
-            if ($model->fill($request->all())) {
-                $url = null;
-                if ($file = $request->file('image')) {
-                    $path = Storage::putFile('public/images', $file);
-                    $url = Storage::url($path);
-                    $model->image = $url;
-                }
-                if($model->save()) {
-                    return redirect()->route('admin.news.index')->with('status', 'Новость добавлена успешно');
-                }
-                return redirect()->route('admin.news.create');
-            }
-            return redirect()->route('admin.news.create');
+        $model = new News();
+        $model->fill($request->all());
+
+        $url = null;
+        if ($file = $request->file('image')) {
+            $path = Storage::putFile('public/images', $file);
+            $url = Storage::url($path);
+            $model->image = $url;
+        }
+
+        if ($model->save()) {
+            return redirect()->route('admin.news.index')->with('status', 'Новость добавлена успешно');
+        }
+        return redirect()->route('admin.news.create');
     }
 
     /**
@@ -95,13 +96,16 @@ class NewsController extends Controller
      * @param News $news
      * @param Request $request
      * @return RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function update(News $news, Request $request): RedirectResponse
     {
-        $this->validate($request, News::rules());
+        $request->flash();
 
-        if ($news->fill($request->all()) && $news->save()) {
+        $this->validate($request, News::rules());
+        $news->fill($request->all());
+
+        if ($news->save()) {
             return redirect()->route('admin.news.index')->with('status', 'Новость обновлена успешно');
         }
         return redirect()->route('admin.news.edit');
@@ -116,11 +120,7 @@ class NewsController extends Controller
      */
     public function destroy(News $news): RedirectResponse
     {
-        $img = '/storage/app/public/images/'. basename($news->image);
         $news->delete();
-        // Не удаляет картинку... Есть ли правильный способ это сделать?
-        //Storage::delete($img);
-        //unlink($img);
         return redirect()->route('admin.news.index')->with('status', 'Новость удалена');
     }
 }

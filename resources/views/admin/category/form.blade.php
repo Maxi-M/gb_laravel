@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@if ($category !== null)
-    @section('title', 'Редактирование новости')
+@if ($category->id)
+    @section('title', 'Редактирование Категории')
 @else
-    @section('title', 'Добавление новости')
+    @section('title', 'Добавление категории')
 @endif
 
 @section('content')
@@ -12,7 +12,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        @if ($category !== null)
+                        @if ($category->id)
                             Редактировать категорию <strong>{{$category->text}}</strong>
                         @else
                             Добавить новую категорию
@@ -20,14 +20,14 @@
                     </div>
                     <div class="card-body">
                         <form method="POST" action="
-                            @if($category !== null)
+                            @if($category->id)
                         {{ route('admin.category.update', $category) }}
                         @else
                         {{ route('admin.category.store') }}
                         @endif
                             ">
                             @csrf
-                            @if ($category !== null)
+                            @if ($category->id)
                                 <input type="hidden" name="_method" value="PATCH">
                             @endif
                             <div class="form-group row">
@@ -37,7 +37,7 @@
                                 <div class="col-md-10">
                                     <input id="text" type="text"
                                            class="form-control @error('text') is-invalid @enderror" name="text"
-                                           value="{{ $category !== null ? $category->text : old('text') }}" autofocus>
+                                           value="{{ old('text') ?? $category->text }}" autofocus>
                                     @component('components.validationError', ['field' => 'text'])@endcomponent
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                 <div class="col-md-10">
                                     <input id="slug" type="text"
                                            class="form-control @error('slug') is-invalid @enderror" name="slug"
-                                           value="{{ $category !== null ? $category->slug : old('slug') }}">
+                                           value="{{ old('slug') ?? $category->slug }}">
                                     @component('components.validationError', ['field' => 'slug'])@endcomponent
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary col-md-4 offset-md-4">
-                                        @if ($category !== null)
+                                        @if ($category->id)
                                             Сохранить категорию
                                         @else
                                             Добавить категорию

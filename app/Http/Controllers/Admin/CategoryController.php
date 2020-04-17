@@ -21,7 +21,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::query()->paginate(5);
+        $categories = Category::query()->paginate(config('app.pageSize'));
         return view('admin.category.index')->with('categories', $categories);
     }
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $category = null;
+        $category = new Category();
         return view('admin.category.form', ['category' => $category]);
     }
 
@@ -43,18 +43,17 @@ class CategoryController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->flash();
 
         $this->validate($request, Category::rules());
 
         $model = new Category();
-        if ($model->fill($request->all())) {
-            if($model->save()) {
-                return redirect()->route('admin.category.index')->with('status', 'Категория добавлена успешно');
-            }
-            return redirect()->route('admin.category.create');
+        $model->fill($request->all());
+
+        if ($model->save()) {
+            return redirect()->route('admin.category.index')->with('status', 'Категория добавлена успешно');
         }
         return redirect()->route('admin.category.create');
     }
@@ -65,7 +64,7 @@ class CategoryController extends Controller
      * @param Category $category
      * @return RedirectResponse
      */
-    public function show(Category $category)
+    public function show(Category $category): RedirectResponse
     {
         return redirect()->route('news.byCategory', $category->slug);
     }
@@ -91,12 +90,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category): RedirectResponse
     {
-        $this->validate($request, Category::rules());
+        $request->flash();
 
-        if ($category->fill($request->all())) {
-            if ($category->save()) {
-                return redirect()->route('admin.category.index')->with('status', 'Категория обновлена успешно');
-            }
+        $this->validate($request, Category::rules());
+        $category->fill($request->all());
+
+        if ($category->save()) {
+            return redirect()->route('admin.category.index')->with('status', 'Категория обновлена успешно');
         }
         return redirect()->route('admin.category.edit');
     }
@@ -110,10 +110,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): RedirectResponse
     {
-        /** @var  News $news */
-        foreach ($category->news as $news) {
-            $news->delete();
-        }
+        $category->news()->delete();
         $category->delete();
         return redirect()->route('admin.category.index')->with('status', 'Категория и все относящиеся к ней новости удалены');
     }

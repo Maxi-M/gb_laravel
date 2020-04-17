@@ -10,14 +10,14 @@
                     <div class="card-header">Добавить новость</div>
                     <div class="card-body">
                         <form enctype="multipart/form-data" method="POST" action="
-                            @if($news !== null)
+                            @if($news->id)
                         {{ route('admin.news.update', $news) }}
                         @else
                         {{ route('admin.news.store') }}
                         @endif
                             ">
                             @csrf
-                            @if ($news !== null)
+                            @if ($news->id)
                                 <input type="hidden" name="_method" value="PATCH">
                             @endif
                             <div class="form-group row">
@@ -27,7 +27,7 @@
                                 <div class="col-md-10">
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
-                                           value="{{ $news !== null ? $news->title : old('title') }}" autofocus>
+                                           value="{{ old('title') ?? $news->title  }}" autofocus>
                                     @component('components.validationError', ['field' => 'title'])@endcomponent
                                 </div>
                             </div>
@@ -42,9 +42,8 @@
                                             name="category_id">
                                         <option selected>- Выберите категорию -</option>
                                         @foreach($categories as $item)
-                                            <option @if(($item->id === ($news !== null ? $news->category_id : null)) ||
-                                                        ((int)old('category_id') === $item->id))
-                                                    selected
+                                            <option @if(($item->id === $news->category_id) ||
+                                                        ((int)old('category_id') === $item->id)) selected
                                                     @endif
                                                     value="{{ $item->id }}">{{ $item->text }}
                                             </option>
@@ -63,8 +62,7 @@
                                 <div class="col-md-12">
                                     <textarea rows="10" id="text"
                                               class="form-control @error('text') is-invalid @enderror"
-                                              name="text">{{ $news !==null ? $news->text : old('text') }}
-                                    </textarea>
+                                              name="text">{{ old('text') ?? $news->text }}</textarea>
                                     @component('components.validationError', ['field' => 'text'])@endcomponent
                                 </div>
                             </div>
@@ -82,7 +80,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary col-md-4 offset-md-4">
-                                        @if ($news !== null)
+                                        @if ($news->id)
                                             Сохранить новость
                                         @else
                                             Добавить новость

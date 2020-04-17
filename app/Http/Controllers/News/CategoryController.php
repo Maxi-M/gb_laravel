@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return view('news.category.index')->with('categories', Category::query()->paginate(5));
+        return view('news.category.index')->with('categories', Category::query()->paginate(config('app.pageSize')));
     }
 
     public function filterCategory(string $slug)
@@ -20,7 +20,7 @@ class CategoryController extends Controller
         $news = null;
         $category = Category::query()->where('slug', $slug)->first();
         if ($category !== null) {
-            $news =  $category->news()->paginate(5);
+            $news =  $category->news()->paginate(config('app.pageSize'));
         }
         return view('news.index', [
             'news' =>$news,
