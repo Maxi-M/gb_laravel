@@ -27,10 +27,8 @@ class ProfileController extends Controller
         $user = \Auth::user();
 
         $errors = [];
+        $this->validator($request->all())->validate();
         if (Hash::check($request->post('old_password'), $user->password)) {
-
-            $this->validator($request->all())->validate();
-
             $user->fill([
                 'name' => $request->post('name'),
                 'password' => Hash::make($request->post('password'))
