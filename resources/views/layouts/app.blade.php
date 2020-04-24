@@ -61,6 +61,9 @@
                                 Админка <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('admin.parser') }}">
+                                    Парсер
+                                </a>
                                 <a class="dropdown-item" href="{{ route('admin.category.index') }}">
                                     Редактировать категории
                                 </a>
