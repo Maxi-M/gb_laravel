@@ -52,6 +52,15 @@ Route::group([
 
 Auth::routes();
 
+Route::group([
+    'prefix' => 'auth',
+    'namespace' => 'Auth',
+    'as' => 'login.'
+], function() {
+    Route::get('/github', 'SocialLoginController@loginGitHub')->name('GitHub');
+    Route::get('/github/callback', 'SocialLoginController@responseGitHub')->name('GitHub.response');
+});
+
 
 
 //Route::get('/home', 'HomeController@index')->name('home');

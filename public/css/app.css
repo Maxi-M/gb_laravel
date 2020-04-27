@@ -10974,3 +10974,13 @@ a.text-dark:focus {
   align-items: center;
 }
 
+.avatar {
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-image {
+  width: 50px;
+  height: 50px;
+}
+
