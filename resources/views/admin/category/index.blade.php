@@ -14,6 +14,17 @@
                         <div class="news-item">
                             {{ $item->text }}
                             <div class="news-controls">
+                                <form id="disable-form{{ $item->id }}" style="display: inline-block" method="POST"
+                                      action="{{ route('admin.category.disable', $item) }}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="PATCH">
+                                    <input type="checkbox" class="checkbox-switch" id="is_active{{ $item->id }}" name="is_active"
+                                           @if ($item->is_active)checked="checked"@endif
+                                           value="1"
+                                           onclick="document.getElementById('disable-form{{ $item->id }}').submit();"
+                                    >
+                                    <label for="is_active{{ $item->id }}"></label>
+                                </form>
                                 <a class="btn btn-success" href=" {{ route('admin.category.edit', $item) }}">Редактировать</a>
                                 <form style="display: inline-block" method="POST"
                                       action="{{ route('admin.category.destroy', $item) }}">

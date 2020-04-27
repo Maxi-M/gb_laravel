@@ -45,11 +45,21 @@ Route::group([
     Route::get('/parser', 'ParserController@index')->name('parser');
     Route::resource('news', 'NewsController');
     Route::resource('category', 'CategoryController');
+    Route::patch('/category/disable/{category}', 'CategoryController@disable')->name('category.disable');
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::patch('/toggle-admin/{user}', 'UserController@toggleAdmin')->name('users.toggleAdmin');
 });
 
 Auth::routes();
+
+Route::group([
+    'prefix' => 'auth',
+    'namespace' => 'Auth',
+    'as' => 'login.'
+], function() {
+    Route::get('/github', 'SocialLoginController@loginGitHub')->name('GitHub');
+    Route::get('/github/callback', 'SocialLoginController@responseGitHub')->name('GitHub.response');
+});
 
 
 

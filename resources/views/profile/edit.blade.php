@@ -21,18 +21,19 @@
                             @component('components.validationError', ['field' => 'name'])@endcomponent
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label for="old_password"
-                               class="col-md-2 col-form-label text-md-left">Старый пароль</label>
-                        <div class="col-md-10">
-                            <input id="old_password" type="password"
-                                   class="form-control @error('old_password') is-invalid @enderror" name="old_password"
-                                   value="">
-                            @component('components.validationError', ['field' => 'old_password'])@endcomponent
+                    @if ($user->getAuthPassword())
+                        <div class="form-group row">
+                            <label for="old_password"
+                                   class="col-md-2 col-form-label text-md-left">Старый пароль</label>
+                            <div class="col-md-10">
+                                <input id="old_password" type="password"
+                                       class="form-control @error('old_password') is-invalid @enderror"
+                                       name="old_password"
+                                       value="">
+                                @component('components.validationError', ['field' => 'old_password'])@endcomponent
+                            </div>
                         </div>
-                    </div>
-
+                    @endif
                     <div class="form-group row">
                         <label for="password"
                                class="col-md-2 col-form-label text-md-left">Новый пароль</label>

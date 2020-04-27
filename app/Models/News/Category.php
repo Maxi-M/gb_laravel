@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table = 'categories';
-    protected $fillable = ['text', 'slug'];
+    protected $fillable = ['text', 'slug', 'is_active', 'rss'];
     public $timestamps = false;
 
     public function news()
@@ -20,6 +20,8 @@ class Category extends Model
         return [
             'text' => ['required', 'min:3', 'max:20'],
             'slug' => ['required', 'regex:/^[A-Za-z0-9\-]+$/'],
+            'is_active' => ['boolean'],
+            'rss' => ['url', 'max:255'],
         ];
     }
 

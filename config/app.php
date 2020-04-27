@@ -150,6 +150,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        \SocialiteProviders\Manager\ServiceProvider::class,
         \Orchestra\Parser\XmlServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,

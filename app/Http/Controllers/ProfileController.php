@@ -28,7 +28,8 @@ class ProfileController extends Controller
 
         $errors = [];
         $this->validator($request->all())->validate();
-        if (Hash::check($request->post('old_password'), $user->password)) {
+        if ((!$user->getAuthPassword()) ||
+            (Hash::check($request->post('old_password'), $user->password))) {
             $user->fill([
                 'name' => $request->post('name'),
                 'password' => Hash::make($request->post('password'))
@@ -46,10 +47,14 @@ class ProfileController extends Controller
 
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'old_password' => ['required', 'string'],
+
             'password' => ['required', 'string', 'min:3', 'confirmed'],
-        ]);
+        ];
+        if (\Auth::user()->getAuthPassword()) {
+            $rules['old_password'] = ['required', 'string'];
+        }
+        return Validator::make($data, $rules);
     }
 }

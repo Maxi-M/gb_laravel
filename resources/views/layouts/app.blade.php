@@ -97,6 +97,11 @@
                             </li>
                         @endif
                     @else
+                        @if(Auth::user()->avatar)
+                            <div class="avatar">
+                                <img src="{{ Auth::user()->avatar }}" alt=" {{ Auth::user()->name }}" class="avatar-image">
+                            </div>
+                        @endif
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
