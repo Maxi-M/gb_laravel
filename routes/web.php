@@ -45,6 +45,7 @@ Route::group([
     Route::get('/parser', 'ParserController@index')->name('parser');
     Route::resource('news', 'NewsController');
     Route::resource('category', 'CategoryController');
+    Route::patch('/category/disable/{category}', 'CategoryController@disable')->name('category.disable');
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::patch('/toggle-admin/{user}', 'UserController@toggleAdmin')->name('users.toggleAdmin');
 });

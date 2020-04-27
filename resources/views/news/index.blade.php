@@ -18,7 +18,9 @@
                     @foreach ($news as $item)
                         <div class="news-card">
                             <a class="news-link" href="{{ route('news.show', $item->id) }}">
-                                <div class="news-title">{{ $item->title }}</div>
+                                <div class="news-title">{{ $item->title }}
+                                    {{ (new \Illuminate\Support\Carbon($item->posted_at))->toFormattedDateString() }}</div>
+
                             </a>
                             <div class="news-image" style="background-image: url({{ $item->image ??
                                         asset('/storage/images/noImg.jpg') }}) ">

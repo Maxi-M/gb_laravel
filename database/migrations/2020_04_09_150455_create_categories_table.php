@@ -17,6 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->string('text');
             $table->string('slug');
+            $table->boolean('is_active')->default(false);
+            $table->string('rss')->default('');
         });
     }
 

@@ -91,10 +91,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category): RedirectResponse
     {
         $request->flash();
-
         $this->validate($request, Category::rules());
         $category->fill($request->all());
-
         if ($category->save()) {
             return redirect()->route('admin.category.index')->with('status', 'Категория обновлена успешно');
         }
@@ -113,5 +111,12 @@ class CategoryController extends Controller
         $category->news()->delete();
         $category->delete();
         return redirect()->route('admin.category.index')->with('status', 'Категория и все относящиеся к ней новости удалены');
+    }
+
+    public function disable(Category $category, Request $request)
+    {
+        $category->is_active = $request->post('is_active') !== null;
+        $category->save();
+        return redirect()->back();
     }
 }
